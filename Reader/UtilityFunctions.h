@@ -1,3 +1,6 @@
+#ifndef UtilityFunctions_hh 
+#define UtilityFunctions_hh 
+
 /*
 Just some utility functions, to abbreviate the safety checking I'm doing.
 In principle I could derive from filebuf, but it's clearer what I'm doing this way.
@@ -71,3 +74,5 @@ void SeekOff(std::filebuf& file, std::streamoff off, std::ios_base::seekdir way,
   std::streampos pos = file.pubseekoff(off, way, which);
   assert(pos != std::streampos(std::streamoff(-1)));
 }
+
+#endif /* UtilityFunctions_hh */ 

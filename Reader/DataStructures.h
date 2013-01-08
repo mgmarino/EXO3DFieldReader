@@ -1,3 +1,6 @@
+#ifndef DataStructures_hh
+#define DataStructures_hh
+
 #include "Rtypes.h"
 
 // is properly aligned (4-byte aligment)
@@ -37,3 +40,5 @@ struct __attribute__((__packed__)) FinalHashFormat
   UShort_t NumTet; // Number of tetrahedra (each of which is 96 bytes = 24 floats)
   ULong64_t FilePos : 48; // File position (bytes) where the tetrahedron array starts
 };
+
+#endif /* DataStructures_hh */

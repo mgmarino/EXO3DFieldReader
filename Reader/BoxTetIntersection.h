@@ -1,3 +1,6 @@
+#ifndef BoxTetIntersection_hh
+#define BoxTetIntersection_hh
+
 #include <algorithm>
 #include <cassert>
 
@@ -342,4 +345,4 @@ bool TestIntersection(Tet t, Box3D b)
 }; // end namespace
 
 
-
+#endif /* BoxTetIntersection_hh */

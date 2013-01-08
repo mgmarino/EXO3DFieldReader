@@ -1,3 +1,5 @@
+#ifndef ThreeDFieldReader_hh
+#define ThreeDFieldReader_hh
 
 #include "EXOUtilities/EXOErrorLogger.hh"
 #include "Rtypes.h"
@@ -85,29 +87,24 @@ class ThreeDFieldReader
   } fHashBuffer;
 
   void SeekOff(std::streamoff off, std::ios_base::seekdir way);
-  template<typename T> void Read(T& data, size_t size = sizeof(T));
-  template<typename T> void Read(T*);
+  template<typename T> void Read(T& data, size_t size = sizeof(T)) 
+  {
+    // Read in from the file, filling data.
+    // Note that if data is a pointer, you must specify size.
+    if(not fFieldFile.is_open()) LogEXOMsg("Attempting to read without opening a file.", EEAlert);
+    std::streamsize check = fFieldFile.sgetn((char*)&data, size);
+    if(check != (std::streamsize) size) LogEXOMsg("Read operation failed.", EEAlert);
+  }
+
+  template<typename T> void Read(T*)
+  {
+    // Prevent this!
+    LogEXOMsg("Attempted to pass a pointer type to the Read function -- how can we infer the read size?", EEAlert);
+  }
+
+  ClassDefT(ThreeDFieldReader,1) // ThreeDField reader
+
 };
-
-template<int NumValues> template<typename T>
-void ThreeDFieldReader<NumValues>::Read(T& data, size_t size)
-{
-  // Read in from the file, filling data.
-  // Note that if data is a pointer, you must specify size.
-  if(not fFieldFile.is_open()) LogEXOMsg("Attempting to read without opening a file.", EEAlert);
-  std::streamsize check = fFieldFile.sgetn((char*)&data, size);
-  if(check != (std::streamsize) size) LogEXOMsg("Read operation failed.", EEAlert);
-}
-
-template<int NumValues> template<typename T>
-void ThreeDFieldReader<NumValues>::Read(T*)
-{
-  // Prevent this!
-  LogEXOMsg("Attempted to pass a pointer type to the Read function -- how can we infer the read size?", EEAlert);
-}
-
-typedef ThreeDFieldReader<1> ThreeDWeightPotentialReader;
-typedef ThreeDFieldReader<3> ThreeDElectricFieldReader;
 
 template<int NumValues>
 bool ThreeDFieldReader<NumValues>::ReadValues(Float_t x, Float_t y, Float_t z)
@@ -263,3 +260,8 @@ void ThreeDFieldReader<NumValues>::SeekOff(std::streamoff off, std::ios_base::se
   std::streampos pos = fFieldFile.pubseekoff(off, way, std::ios_base::in);
   if(pos == std::streampos(std::streamoff(-1))) LogEXOMsg("std::filebuf::pubseekoff failed.", EEAlert);
 }
+
+typedef ThreeDFieldReader<1> ThreeDWeightPotentialReader;
+typedef ThreeDFieldReader<3> ThreeDElectricFieldReader;
+
+#endif /* ThreeDFieldReader_hh */
