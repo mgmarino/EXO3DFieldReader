@@ -14,7 +14,7 @@ TARGETOBJ = $(patsubst %, %.o, $(TARGETS))
 CXX = g++
 
 CXXFLAGS := -Wall $(DEBUG_FLAG) -I../Reader $(shell exo-config --cflags) $(shell $(CLHEP_BASE_DIR)/bin/clhep-config --include)
-LIBS := $(shell $(ROOTSYS)/bin/root-config --libs --glibs) $(shell exo-config --libs) 
+LIBS := $(shell $(ROOTSYS)/bin/root-config --libs --glibs) $(shell exo-config --libs) ../Reader/libReader.so 
 
 .SECONDARY:
 

@@ -1,7 +1,7 @@
 
 .PHONY: recursive clean all doall 
 
-DIRS := Examples
+DIRS := Reader Examples
 
 all: check doall
 
