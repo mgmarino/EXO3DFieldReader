@@ -13,3 +13,10 @@
 *.a
 
 *.depend
+
+Examples/Write*.1
+Examples/Write*.3
+Examples/TestReader
+
+*/*DICT.h
+*/*DICT.C
