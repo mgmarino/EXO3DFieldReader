@@ -11,11 +11,11 @@ SOURCES = $(wildcard *.cc) #uncomment these to add all cc files in directory to 
 OBJECTS = $(SOURCES:.cc=.o) 
 
 
-DEBUG_FLAG := -g
+DEBUG_FLAG := -g -O2
 
 CXX = g++
 
-CXXFLAGS := -Wall $(DEBUG_FLAG) -I. $(shell exo-config --cflags) $(shell $(CLHEP_BASE_DIR)/bin/clhep-config --include)
+CXXFLAGS := -Wall $(DEBUG_FLAG) -fPIC -I. $(shell exo-config --cflags) $(shell $(CLHEP_BASE_DIR)/bin/clhep-config --include)
 LIBS := $(shell $(ROOTSYS)/bin/root-config --libs --glibs) $(shell exo-config --libs) 
 
 ROOTDICTHEADERS := $(shell grep -l ClassDef $(wildcard *.h) | xargs) 
