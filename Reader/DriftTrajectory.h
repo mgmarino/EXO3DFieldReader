@@ -26,6 +26,8 @@ class DriftTrajectory : public TObject
     double GetSamplingPeriod() const { return fSamplingPeriod; }
 
     const PathType& GetLastDriftedPath() const { return fLastDriftPath; }
+
+    void SetMaxDriftPoints(size_t pts) { fMaxDriftPoints = pts; }
   protected:
 
     DriftTrajectory(); 
@@ -35,6 +37,8 @@ class DriftTrajectory : public TObject
     Double_t                  fDriftVelocity;
     Double_t                  fSamplingPeriod;
     TGraph2D                  fCurrentGraph;
+    size_t                    fMaxDriftPoints;
+
 
     ClassDef(DriftTrajectory, 0)
 
