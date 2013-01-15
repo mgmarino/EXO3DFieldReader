@@ -24,7 +24,7 @@ const DriftTrajectory::PathType&
     TVector3 evec(fEfield.fValues[0], fEfield.fValues[1], fEfield.fValues[2]);
     //cout << evec.Mag() << " ";
     //currentPoint.Print();
-    if (evec.Mag() > 1e5) break;
+    if (evec.Mag() > 1e10) break;
     evec *= (1./evec.Mag());
 
     currentPoint += -fDriftVelocity*fSamplingPeriod*evec; 
