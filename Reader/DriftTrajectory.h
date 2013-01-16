@@ -27,7 +27,7 @@ class DriftTrajectory : public TObject
 
     const PathType& GetLastDriftedPath() const { return fLastDriftPath; }
 
-    void SetMaxDriftPoints(size_t pts) { fMaxDriftPoints = pts; }
+    void SetMaxDriftPoints(size_t pts) { fMaxDriftPoints = pts; fLastDriftPath.reserve(pts);}
   protected:
 
     DriftTrajectory(); 

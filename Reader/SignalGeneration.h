@@ -13,15 +13,17 @@ class SignalGeneration {
     SignalGeneration(const std::string& filename);
 
     
-    EXODoubleWaveform GetSignalWithDriftPath(const DriftTrajectory& dt) const;
+    const EXODoubleWaveform& GetSignalWithDriftPath(const DriftTrajectory& dt) const;
 
     void SetTotalWaveformMinLength(size_t i) { fWFMinLength = i; }
     void SetWaveformDelayTerm(size_t i) { fWFDelayLength = i; }
 
   protected:
     mutable ThreeDWeightPotentialReader fWPot;
+    mutable EXODoubleWaveform fWFScratch;
     size_t fWFMinLength;
     size_t fWFDelayLength;
+    
 
   ClassDef(SignalGeneration, 0)
   
