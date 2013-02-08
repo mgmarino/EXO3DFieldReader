@@ -21,6 +21,7 @@ class DriftTrajectory : public TObject
     void Draw(Option_t* opt = "");
 
     void SetDriftVelocity(double dv) { fDriftVelocity = dv; }
+    void SetCollectionDriftVelocity(double dv) { fCollectionDriftVelocity = dv; }
     void SetSamplingPeriod(double sp) { fSamplingPeriod = sp; }
 
     double GetSamplingPeriod() const { return fSamplingPeriod; }
@@ -35,6 +36,7 @@ class DriftTrajectory : public TObject
     mutable ThreeDElectricFieldReader fEfield;
     mutable PathType                  fLastDriftPath;
     Double_t                  fDriftVelocity;
+    Double_t                  fCollectionDriftVelocity;
     Double_t                  fSamplingPeriod;
     TGraph2D                  fCurrentGraph;
     size_t                    fMaxDriftPoints;
