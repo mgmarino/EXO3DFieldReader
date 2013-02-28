@@ -16,9 +16,11 @@ EXODoubleWaveform SignalGeneration::GetSignalWithDriftPath(const DriftTrajectory
   retWF.SetSamplingPeriod(dt.GetSamplingPeriod());
   if (retWF.size() == 0) return retWF;
 
+  double first_val = 0.0;
   for (size_t i=0;i<path.size();i++) {
     if (!fWPot.ReadValues(path[i].X(), path[i].Y(), path[i].Z())) break;
-    retWF[fWFDelayLength + i] = fWPot.fValues[0];
+    if (i==0) first_val = fWPot.fValues[0];
+    retWF[fWFDelayLength + i] = fWPot.fValues[0] - first_val;
   }
  
   size_t oldLength = retWF.size();
