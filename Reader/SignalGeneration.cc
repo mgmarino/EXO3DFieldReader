@@ -8,13 +8,15 @@ SignalGeneration::SignalGeneration(const std::string& filename) : fWFMinLength(0
   fWPot.SetFile(filename);
 }
 
-EXODoubleWaveform SignalGeneration::GetSignalWithDriftPath(const DriftTrajectory& dt) const
+const EXODoubleWaveform& SignalGeneration::GetSignalWithDriftPath(const DriftTrajectory& dt) const
 {
   const DriftTrajectory::PathType& path = dt.GetLastDriftedPath();
-  EXODoubleWaveform retWF;
-  retWF.SetLength(fWFDelayLength+path.size());
-  retWF.SetSamplingPeriod(dt.GetSamplingPeriod());
-  if (retWF.size() == 0) return retWF;
+  size_t newSize = (fWFDelayLength + path.size() < fWFMinLength) ? 
+    fWFMinLength : fWFDelayLength + path.size();
+  fWFScratch.SetLength(newSize);
+  fWFScratch.SetSamplingPeriod(dt.GetSamplingPeriod());
+  if (fWFScratch.size() == 0) return fWFScratch;
+  fWFScratch.Zero();
 
   double first_val = 0.0;
   for (size_t i=0;i<path.size();i++) {
@@ -23,14 +25,13 @@ EXODoubleWaveform SignalGeneration::GetSignalWithDriftPath(const DriftTrajectory
     retWF[fWFDelayLength + i] = fWPot.fValues[0] - first_val;
   }
  
-  size_t oldLength = retWF.size();
-  if (retWF[oldLength-1] > 0.999) retWF[oldLength-1] = 1.;
+  size_t oldLength = path.size() + fWFDelayLength; 
+  if (fWFScratch[oldLength-1] > 0.999) fWFScratch[oldLength-1] = 1.;
 
-  if (retWF.size() < fWFMinLength) {
-    double lastVal = retWF[oldLength - 1];
-    retWF.SetLength(fWFMinLength);
-    for (size_t i=oldLength;i<fWFMinLength;i++) retWF[i] = lastVal; 
+  if (oldLength < fWFMinLength) {
+    double lastVal = fWFScratch[oldLength - 1];
+    for (size_t i=oldLength;i<fWFMinLength;i++) fWFScratch[i] = lastVal; 
   } 
   
-  return retWF; 
+  return fWFScratch; 
 }

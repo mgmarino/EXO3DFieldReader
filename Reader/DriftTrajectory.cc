@@ -7,7 +7,9 @@ using namespace std;
 ClassImp(DriftTrajectory)
 
 DriftTrajectory::DriftTrajectory(const std::string& filename)
- : fDriftVelocity(DRIFT_VELOCITY), fSamplingPeriod(SAMPLE_TIME_HIGH_BANDWIDTH),
+ : fDriftVelocity(DRIFT_VELOCITY), 
+   fCollectionDriftVelocity(DRIFT_VELOCITY),
+   fSamplingPeriod(SAMPLE_TIME_HIGH_BANDWIDTH),
    fMaxDriftPoints((size_t)-1)
 {
   fEfield.SetFile(filename);
@@ -24,8 +26,12 @@ const DriftTrajectory::PathType&
     TVector3 evec(fEfield.fValues[0], fEfield.fValues[1], fEfield.fValues[2]);
     //cout << evec.Mag() << " ";
     //currentPoint.Print();
-    if (evec.Mag() > 1e5) break;
+    if (evec.Mag() > 1e10) break;
     evec *= (1./evec.Mag());
+    double vel = fDriftVelocity;
+    if (currentPoint.Z() <= APDPLANE_UPLANE_DISTANCE + UPLANE_VPLANE_DISTANCE) {
+      vel = fCollectionDriftVelocity;
+    }
 
     currentPoint += -fDriftVelocity*fSamplingPeriod*evec; 
      
