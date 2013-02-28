@@ -22,7 +22,7 @@ const EXODoubleWaveform& SignalGeneration::GetSignalWithDriftPath(const DriftTra
   for (size_t i=0;i<path.size();i++) {
     if (!fWPot.ReadValues(path[i].X(), path[i].Y(), path[i].Z())) break;
     if (i==0) first_val = fWPot.fValues[0];
-    retWF[fWFDelayLength + i] = fWPot.fValues[0] - first_val;
+    fWFScratch[fWFDelayLength + i] = fWPot.fValues[0] - first_val;
   }
  
   size_t oldLength = path.size() + fWFDelayLength; 
