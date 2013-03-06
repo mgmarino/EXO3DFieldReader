@@ -33,7 +33,7 @@ const DriftTrajectory::PathType&
       vel = fCollectionDriftVelocity;
     }
 
-    currentPoint += -fDriftVelocity*fSamplingPeriod*evec; 
+    currentPoint += -vel*fSamplingPeriod*evec; 
      
     if (fLastDriftPath.size() >= fMaxDriftPoints) {
       LogEXOMsg("Drifted beyond max?!", EEWarning);
